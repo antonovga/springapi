@@ -21,7 +21,9 @@ public class SpringapiApplication {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-            postRepo.save(new Post("title_1", "content_1"));
+            for (int i=0; i<100; i++){
+                postRepo.save(new Post("title_#{i}", "content_#{i}"));
+            }
         };
     }
 }
