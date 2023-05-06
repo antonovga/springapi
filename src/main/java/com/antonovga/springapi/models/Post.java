@@ -1,11 +1,10 @@
 package com.antonovga.springapi.models;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -51,21 +50,25 @@ public class Post {
     private String title;
     private String content;
 
-    @CreatedDate
-    @Column(name="created_at")
-    private Date createdAt;
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
-    public Date getCreatedAt() {
+    @CreationTimestamp
+    @Column(name="created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    @LastModifiedDate
-    @Column(name="updated_at")
-    private Date updatedAt;
+    @UpdateTimestamp
+    @Column(name="updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     public Set<Comment> getComments() {
         return comments;

@@ -1,0 +1,38 @@
+version: '3'
+
+networks:
+  network1:
+    driver: bridge
+
+services:
+
+  springapi-backend:
+    container_name: springapi-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      JAVA_TOOL_OPTIONS: "-Dspring.datasource.url=jdbc:postgresql://springapi-postgres:5432/springapi_dev"
+
+    ports:
+      - "8080:8080"
+    networks:
+      - network1
+    depends_on:
+      - "springapi-postgres"
+
+  springapi-postgres:
+    container_name: springapi-postgres
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: springapi_dev
+    volumes:
+      - springapi:/data
+    networks:
+      - network1
+volumes:
+  springapi:

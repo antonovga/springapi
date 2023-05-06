@@ -14,7 +14,7 @@ public class PostsController {
     }
 
     @GetMapping("/posts")
-    Iterable<Post> index(){
-    return repo.findAll();
+    public Iterable<Post> index() {
+        return repo.findAll();
     }
 }
